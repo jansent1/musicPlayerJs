@@ -89,6 +89,20 @@ let userData = {
   songCurrentTime: 0,
 };
 
+const playSong = (id) => {
+  const song = userData?.songs.find((song) => song.id === id);
+  audio.src = song.src;
+  audio.title = song.title;
+  //Make sure the song starts from the beginning:
+  if (userData?.currentSong === null || userData?.currentSong.id !== song.id) {
+    audio.currentTime = 0;
+  } else audio.currentTime = userData?.songCurrentTime;
+  //update current song being played:
+  userData.currentSong = song;
+  playButton.classList.add("playing");
+  audio.play();
+};
+
 //display songs in UI (Zie mijn google docs voor meer info):
 const renderSongs = (array) => {
   const songsHTML = array
@@ -113,6 +127,16 @@ const renderSongs = (array) => {
   //Display the songs array inside the ul element of the index.html file:
   playlistSongs.innerHTML = songsHTML;
 };
+
+//Play button functionality:
+playButton.addEventListener("click", () => {
+  //make sure the first song is played:
+  if (!userData?.currentSong) {
+    playSong(userData?.songs[0].id);
+  } else {
+    playSong(userData?.currentSong.id);
+  }
+});
 
 // Sort songs array based on each song title:
 const sortSongs = () => {
