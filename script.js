@@ -110,6 +110,17 @@ const pauseSong = () => {
   audio.pause();
 };
 
+//previous and next song functionalities:
+const playNextSong = () => {
+  if (userData?.currentSong === null) {
+    playSong(userData?.songs[0].id);
+  } else {
+    const currentSongIndex = getCurrentSongIndex();
+    const nextSong = userData?.songs[currentSongIndex + 1];
+    playSong(nextSong.id);
+  }
+};
+
 //display songs in UI (Zie mijn google docs voor meer info):
 const renderSongs = (array) => {
   const songsHTML = array
@@ -135,6 +146,10 @@ const renderSongs = (array) => {
   playlistSongs.innerHTML = songsHTML;
 };
 
+const getCurrentSongIndex = () => {
+  return userData?.songs.indexOf(userData?.currentSong);
+};
+
 //Play button functionality:
 playButton.addEventListener("click", () => {
   //make sure the first song is played:
@@ -144,8 +159,9 @@ playButton.addEventListener("click", () => {
     playSong(userData?.currentSong.id);
   }
 });
-//Pause button functionility:
+//Button evenListeners:
 pauseButton.addEventListener("click", pauseSong);
+nextButton.addEventListener("click", playNextSong);
 
 // Sort songs array based on each song title:
 const sortSongs = () => {
