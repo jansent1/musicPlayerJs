@@ -253,11 +253,27 @@ playButton.addEventListener("click", () => {
     playSong(userData?.currentSong.id);
   }
 });
-//Button evenListeners:
+
+//Button eventListeners:
 pauseButton.addEventListener("click", pauseSong);
 nextButton.addEventListener("click", playNextSong);
 previousButton.addEventListener("click", playPreviousSong);
 shuffleButton.addEventListener("click", shuffle);
+// Songs eventListeners
+audio.addEventListener("ended", () => {
+  const currentSongIndex = getCurrentSongIndex();
+  const nextSongExists = userData?.songs?.length > currentSongIndex;
+  if (nextSongExists) {
+    playNextSong();
+  } else {
+    userData.currentSong = null;
+    userData.songCurrentTime = 0;
+    pauseSong();
+    setPlayerDisplay();
+    highlightCurrentSong();
+    setPlayButtonAccessibleText();
+  }
+});
 
 // Sort songs array based on each song title:
 const sortSongs = () => {
