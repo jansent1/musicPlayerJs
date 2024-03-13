@@ -134,6 +134,20 @@ const playPreviousSong = () => {
   }
 };
 
+// shuffle button and state management updates:
+const shuffle = () => {
+  // Randomize the songs array if it exists:
+  userData?.songs.sort(() => Math.random() - 0.5);
+  // no optional chaining due to the reset:
+  userData.currentSong = null;
+  userData.songCurrentTime = 0;
+  //reset the UI and songs:
+  renderSongs(userData?.songs);
+  pauseSong();
+  setPlayerDisplay();
+  setPlayButtonAccessibleText();
+};
+
 // display song information:
 const setPlayerDisplay = () => {
   const playingSong = document.getElementById("player-song-title");
@@ -208,6 +222,7 @@ playButton.addEventListener("click", () => {
 pauseButton.addEventListener("click", pauseSong);
 nextButton.addEventListener("click", playNextSong);
 previousButton.addEventListener("click", playPreviousSong);
+shuffleButton.addEventListener("click", shuffle);
 
 // Sort songs array based on each song title:
 const sortSongs = () => {
